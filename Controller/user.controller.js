@@ -1,5 +1,5 @@
 const {
-    createUserServices,removeUserByIDService, getAllUserServices
+    createUserServices,removeUserByIDService, getAllUserServices, getUserByIDService
 } = require("../Services/user.services");
 
 exports.createUser = async (req, res, next) => {
@@ -36,6 +36,25 @@ exports.GetUser = async (req, res, next) => {
     }
 }
 
+exports.GetUserById = async (req, res, next) => {
+    try {
+        const {id} = req.params;
+        console.log("removing admin by email: ",id); 
+        const reviewerList = await getUserByIDService(id);
+        res.status(200).json({
+            status: "success",
+            message: "Reviewer Deleted successesFully",
+            data: reviewerList
+        })
+    } catch (err) {
+        res.status(400).json({
+            status: "Fail",
+            message: "Can't get Reviewer List",
+            error: err,
+            
+        })
+    }
+};
 exports.removeUserByIdController = async (req, res, next) => {
     try {
         const {id} = req.params;
