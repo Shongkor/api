@@ -17,6 +17,14 @@ exports.getUserByAppKeyService = async (key) => {
     const userList = await UserModel.find({"AppKey" : key});
     return userList;
 };
+exports.updateUserByIdService = async (id, updateTour) => {
+    console.log("12.2444444444444444444444",id, updateTour);
+    const updatedUser = await UserModel.findByIdAndUpdate(id, updateTour, {
+        runValidators: true,
+        new: true,
+    });
+    return updatedUser;
+}
 exports.removeUserByIDService = async (id) => {
     const user = await UserModel.deleteOne({"_id" : id});
     return user;

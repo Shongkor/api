@@ -1,5 +1,5 @@
 const {
-    createUserServices,removeUserByIDService, getAllUserServices, getUserByIDService, getUserByAppKeyService
+    createUserServices, removeUserByIDService, getAllUserServices, getUserByIDService, getUserByAppKeyService, updateUserByIdService
 } = require("../Services/user.services");
 
 exports.createUser = async (req, res, next) => {
@@ -31,15 +31,15 @@ exports.GetUser = async (req, res, next) => {
             status: "Fail",
             message: "Can't get User List",
             error: err,
-            
+
         })
     }
 }
 
 exports.GetUserById = async (req, res, next) => {
     try {
-        const {id} = req.params;
-        console.log("removing admin by email: ",id); 
+        const { id } = req.params;
+        console.log("removing admin by email: ", id);
         const reviewerList = await getUserByIDService(id);
         res.status(200).json({
             status: "success",
@@ -51,15 +51,15 @@ exports.GetUserById = async (req, res, next) => {
             status: "Fail",
             message: "Can't get Reviewer List",
             error: err,
-            
+
         })
     }
 };
 
 exports.GetUserByAppKey = async (req, res, next) => {
     try {
-        const {key} = req.params;
-        console.log("removing admin by email: ",key); 
+        const { key } = req.params;
+        console.log("removing admin by email: ", key);
         const reviewerList = await getUserByAppKeyService(key);
         res.status(200).json({
             status: "success",
@@ -71,14 +71,34 @@ exports.GetUserByAppKey = async (req, res, next) => {
             status: "Fail",
             message: "Can't get Reviewer List",
             error: err,
-            
+
+        })
+    }
+};
+exports.UpdateUserById = async (req, res, next) => {
+    try {
+        const {
+            id
+        } = req.params;
+        const updateUser = req.body;
+        // console.log(id);
+        const updatedUser = await updateUserByIdService(id, updateUser);
+        res.status(200).json({
+            status: "success",
+            data: updatedUser,
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            status: "fail",
+            message: err.message,
         })
     }
 };
 exports.removeUserByIdController = async (req, res, next) => {
     try {
-        const {id} = req.params;
-        console.log("removing admin by email: ",id); 
+        const { id } = req.params;
+        console.log("removing admin by email: ", id);
         const reviewerList = await removeUserByIDService(id);
         res.status(200).json({
             status: "success",
@@ -90,7 +110,7 @@ exports.removeUserByIdController = async (req, res, next) => {
             status: "Fail",
             message: "Can't get Reviewer List",
             error: err,
-            
+
         })
     }
 };
