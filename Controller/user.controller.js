@@ -1,5 +1,5 @@
 const {
-    createUserServices,removeUserByIDService, getAllUserServices, getUserByIDService
+    createUserServices,removeUserByIDService, getAllUserServices, getUserByIDService, getUserByAppKeyService
 } = require("../Services/user.services");
 
 exports.createUser = async (req, res, next) => {
@@ -44,6 +44,26 @@ exports.GetUserById = async (req, res, next) => {
         res.status(200).json({
             status: "success",
             message: "Reviewer Deleted successesFully",
+            data: reviewerList
+        })
+    } catch (err) {
+        res.status(400).json({
+            status: "Fail",
+            message: "Can't get Reviewer List",
+            error: err,
+            
+        })
+    }
+};
+
+exports.GetUserByAppKey = async (req, res, next) => {
+    try {
+        const {key} = req.params;
+        console.log("removing admin by email: ",key); 
+        const reviewerList = await getUserByAppKeyService(key);
+        res.status(200).json({
+            status: "success",
+            message: "User Get successesFully by AppKey",
             data: reviewerList
         })
     } catch (err) {
