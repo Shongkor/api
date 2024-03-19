@@ -61,14 +61,14 @@ exports.GetUserByLogIn = async (req, res, next) => {
         const {email,password} = req.body;
         console.log("body for login: ", email,password);
         const loggedInfo = await getUserByLogInService(email,password);
-        if (loggedInfo) {
+        if (loggedInfo.length) {
             res.status(200).json({
                 status: "success",
                 message: "User Log In Success",
                 data: loggedInfo
             })
         }else{
-            res.status(400).json({
+            res.status(404).json({
                 status: "Fail",
                 message: "You are not Authorized user, please Sign Up",
                 error: err,
