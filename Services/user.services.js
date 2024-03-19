@@ -10,15 +10,24 @@ exports.getAllUserServices = async () => {
     return userList;
 };
 exports.getUserByIDService = async (id) => {
-    const userList = await UserModel.find({"_id" : id});
+    const userList = await UserModel.find({ "_id": id });
     return userList;
 };
 exports.getUserByAppKeyService = async (key) => {
-    const userList = await UserModel.find({"AppKey" : key});
+    const userList = await UserModel.find({ "AppKey": key });
+    return userList;
+};
+exports.getUserByLogInService = async (email, password) => {
+    const userList = await UserModel.find({
+        $and: [
+            { "email": email },
+            { "password": password }
+        ]
+    });
     return userList;
 };
 exports.updateUserByIdService = async (id, updateTour) => {
-    console.log("12.2444444444444444444444",id, updateTour);
+    console.log("12.2444444444444444444444", id, updateTour);
     const updatedUser = await UserModel.findByIdAndUpdate(id, updateTour, {
         runValidators: true,
         new: true,
@@ -26,6 +35,6 @@ exports.updateUserByIdService = async (id, updateTour) => {
     return updatedUser;
 }
 exports.removeUserByIDService = async (id) => {
-    const user = await UserModel.deleteOne({"_id" : id});
+    const user = await UserModel.deleteOne({ "_id": id });
     return user;
 };
